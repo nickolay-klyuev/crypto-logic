@@ -14,7 +14,7 @@ gulp.task("to_public", function () {
 });
 
 gulp.task("clean", function () {
-	return del("public");
+	return del("public/*.html");
 });
 
 gulp.task("build", ["clean", "to_public"]);
@@ -29,5 +29,5 @@ gulp.task("connect", function() {
 gulp.task("start", ["build", "connect", "watch"]);
 
 gulp.task("watch", function () {
-	gulp.watch(["dev/**"], ['build']);
+	gulp.watch(["dev/**"], ["build"]);
 });
