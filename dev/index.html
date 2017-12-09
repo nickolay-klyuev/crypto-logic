@@ -6,6 +6,41 @@
 </head>
 <body>
 	<h1>Crypto Logic</h1>
-	<h2>Simple game</h2>
+	<form>
+		<input type="text" name="first_player_input">
+	</form>
+
+	<script type="text/javascript">
+		"use scrict";
+
+		function randomInteger(min, max) {
+		    return Math.floor(Math.random() * (max - min + 1)) + min;
+		}
+
+		let inputs = document.querySelector("input");
+		let firstPlayerInput = document.querySelector("input[name='first_player_input']");
+
+		let firstValue;
+
+		function changeFirstText(e) {
+			let key = e.which || e.keyCode;
+			if (key === 13) {
+				e.preventDefault();
+				firstValue = firstPlayerInput.value;
+				let firstValueArr = firstValue.split("");
+
+				firstValueArr.forEach((l, i, a) => {
+					let rand = randomInteger(0, a.length - 1);
+					let temp = a[i];
+					a[i] = a[rand]
+					a[rand] = temp;
+				});
+
+				firstPlayerInput.value = firstValueArr.join("");
+			}
+		}
+
+		firstPlayerInput.addEventListener("keypress", changeFirstText);
+	</script>
 </body>
 </html>
