@@ -1,0 +1,23 @@
+{
+  "name": "crypto-logic",
+  "version": "1.0.0",
+  "description": "The simple game for two players",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "gulp": "./node_modules/.bin/gulp"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickolay-klyuev/crypto-logic.git"
+  },
+  "author": "Nickolay Klyuev",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickolay-klyuev/crypto-logic/issues"
+  },
+  "homepage": "https://github.com/nickolay-klyuev/crypto-logic#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1"
+  }
+}
