@@ -7,9 +7,22 @@
 <body>
 	<h1>Crypto Logic</h1>
 	<form>
-		<input type="text" name="first_player_input">
-		<input type="text" name="second_player_input" readonly="readonly">
+		<label>
+			<h3>First Player</h3>
+			<input type="text" name="first_player_input">
+		</label>
+		<label>
+			<h3>Second Player</h3>
+			<p>Errors: <span class="errors_count">0</span></p>
+			<input type="text" name="second_player_input" readonly="readonly">
+		</label>
 	</form>
+
+	<div class="score">
+		<h3>Score</h3>
+		<p>First player: <span class="first_score">0</span></p>
+		<p>Second player: <span class="second_score">0</span></p>
+	</div>
 
 	<script type="text/javascript">
 		"use scrict";
@@ -20,6 +33,8 @@
 
 		let firstPlayerInput = document.querySelector("input[name='first_player_input']");
 		let secondPlayerInput = document.querySelector("input[name='second_player_input']");
+		let errorsCount = document.querySelector(".errors_count");
+		let firstScore = document.querySelector(".first_score");
 
 		let count = 0;
 		let firstValue;
@@ -44,15 +59,35 @@
 			}
 		}
 
-		firstPlayerInput.addEventListener("keypress", changeFirstText);
-		secondPlayerInput.addEventListener("keypress", (e) => {
+		function secondPlayerTry(e) {
+			if (firstValue === secondPlayerInput.value) {
+				firstPlayerInput.value = "";
+				secondPlayerInput.value = "";
+				firstPlayerInput.readOnly = false;
+				secondPlayerInput.readOnly = true;
+				count = 0;
+				firstScore.innerHTML = errorsCount.innerHTML;
+				errorsCount.innerHTML = 0;
+				changePlayer();
+				return;
+			}
+
 			if (e.key === firstValue[count]) {
 				count++;
 			} else {
-				console.log("error");
 				e.preventDefault();
+				let errors = errorsCount.innerHTML;
+				errors++;
+				errorsCount.innerHTML = errors;
 			}
-		});
+		}
+
+		function changePlayer() {
+			console.log("works");
+		}
+
+		firstPlayerInput.addEventListener("keypress", changeFirstText);
+		secondPlayerInput.addEventListener("keypress", secondPlayerTry);
 	</script>
 </body>
 </html>
