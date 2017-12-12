@@ -8,6 +8,7 @@
 	<h1>Crypto Logic</h1>
 	<form>
 		<input type="text" name="first_player_input">
+		<input type="text" name="second_player_input" readonly="readonly">
 	</form>
 
 	<script type="text/javascript">
@@ -17,9 +18,10 @@
 		    return Math.floor(Math.random() * (max - min + 1)) + min;
 		}
 
-		let inputs = document.querySelector("input");
 		let firstPlayerInput = document.querySelector("input[name='first_player_input']");
+		let secondPlayerInput = document.querySelector("input[name='second_player_input']");
 
+		let count = 0;
 		let firstValue;
 
 		function changeFirstText(e) {
@@ -32,15 +34,25 @@
 				firstValueArr.forEach((l, i, a) => {
 					let rand = randomInteger(0, a.length - 1);
 					let temp = a[i];
-					a[i] = a[rand]
+					a[i] = a[rand];
 					a[rand] = temp;
 				});
 
 				firstPlayerInput.value = firstValueArr.join("");
+				firstPlayerInput.readOnly = true;
+				secondPlayerInput.readOnly = false;
 			}
 		}
 
 		firstPlayerInput.addEventListener("keypress", changeFirstText);
+		secondPlayerInput.addEventListener("keypress", (e) => {
+			if (e.key === firstValue[count]) {
+				count++;
+			} else {
+				console.log("error");
+				e.preventDefault();
+			}
+		});
 	</script>
 </body>
 </html>
