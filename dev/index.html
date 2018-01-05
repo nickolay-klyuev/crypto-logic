@@ -8,11 +8,11 @@
 	<h1>Crypto Logic</h1>
 	<form>
 		<label>
-			<h3>First Player</h3>
+			<h3 class="first_player_h">First Player</h3>
 			<input type="text" name="first_player_input">
 		</label>
 		<label>
-			<h3>Second Player</h3>
+			<h3 class="second_player_h">Second Player</h3>
 			<p>Errors: <span class="errors_count">0</span></p>
 			<input type="text" name="second_player_input" readonly="readonly">
 		</label>
@@ -24,6 +24,8 @@
 		<p>Second player: <span class="second_score">0</span></p>
 	</div>
 
+	<div class="game_over"></div>
+
 	<script type="text/javascript">
 		"use scrict";
 
@@ -33,13 +35,24 @@
 
 		let firstPlayerInput = document.querySelector("input[name='first_player_input']");
 		let secondPlayerInput = document.querySelector("input[name='second_player_input']");
+		let firstPlayerH = document.querySelector(".first_player_h");
+		let secondPlayerH = document.querySelector(".second_player_h");
 		let errorsCount = document.querySelector(".errors_count");
 		let firstScore = document.querySelector(".first_score");
+		let secondScore = document.querySelector(".second_score");
+		let gameOverDiv = document.querySelector(".game_over");
 
 		let count = 0;
+		let gameOverCount = 0;
 		let firstValue;
 
 		function changeFirstText(e) {
+			gameOverDiv.innerHTML = "";
+			if (gameOverCount === 0) {
+				firstScore.innerHTML = "";
+				secondScore.innerHTML = "";
+			}
+			
 			let key = e.which || e.keyCode;
 			if (key === 13) {
 				e.preventDefault();
@@ -59,6 +72,7 @@
 			}
 		}
 
+		let change = false;
 		function secondPlayerTry(e) {
 			if (firstValue === secondPlayerInput.value) {
 				firstPlayerInput.value = "";
@@ -66,7 +80,13 @@
 				firstPlayerInput.readOnly = false;
 				secondPlayerInput.readOnly = true;
 				count = 0;
-				firstScore.innerHTML = errorsCount.innerHTML;
+
+				if (change === false) {
+					firstScore.innerHTML = errorsCount.innerHTML;
+				} else {
+					secondScore.innerHTML = errorsCount.innerHTML;
+				}
+				
 				errorsCount.innerHTML = 0;
 				changePlayer();
 				return;
@@ -83,7 +103,23 @@
 		}
 
 		function changePlayer() {
-			console.log("works");
+			let temp = firstPlayerH.innerHTML;
+			firstPlayerH.innerHTML = secondPlayerH.innerHTML;
+			secondPlayerH.innerHTML = temp;
+			change = !change;
+			gameOverCount++;
+
+			if (gameOverCount === 2) {
+				gameOverCount = 0;
+
+				if (firstScore.innerHTML > secondScore.innerHTML) {
+					gameOverDiv.innerHTML = `<p>First Player Wins</p>`;
+				} else if (firstScore.innerHTML < secondScore.innerHTML) {
+					gameOverDiv.innerHTML = `<p>Second Player Wins</p>`;
+				} else {
+					gameOverDiv.innerHTML = `<p>Draw</p>`;
+				}
+			}
 		}
 
 		firstPlayerInput.addEventListener("keypress", changeFirstText);
